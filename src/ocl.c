@@ -437,9 +437,9 @@ SEXP ocl_call(SEXP args) {
 	Rf_error("failed to set first kernel argument as output in clSetKernelArg");
     if (clSetKernelArg(kernel, an++, sizeof(on), &on) != CL_SUCCESS)
 	Rf_error("failed to set second kernel argument as output length in clSetKernelArg");
-    occ->commands = commands = clCreateCommandQueue(context, device_id, 0, &last_ocl_error);
+    occ->commands = commands = clCreateCommandQueueWithProperties(context, device_id, 0, &last_ocl_error);
     if (!commands)
-	ocl_err("clCreateCommandQueue");
+	ocl_err("clCreateCommandQueueWithProperties");
     if (ftype == FT_SINGLE) /* need conversions, create floats buffer */
 	occ->float_args = float_args = arg_alloc(0, 32);
     while ((arg = CAR(args)) != R_NilValue) {
